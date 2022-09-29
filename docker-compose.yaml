@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+    nginx:
+        build: nginx
+        volumes:
+          - ./frontend/admin:/static
+        ports:
+          - "81:80"
+        depends_on:
+          - api
+
+    api:
+        build: backend
+        environment:
+          - PORT=8080
+        ports:
+          - "8080:8080"
+networks:
+  nginx_network:
+    driver: bridge
