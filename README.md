@@ -2,7 +2,7 @@
 Платформа для обучения по анализу защищенности "CyberQuest"
 
 # Запуск проекта
-`docker-compose.yaml up --force-recreate -d --build`
+`docker-compose up --force-recreate -d --build`
 
 # Структура проекта
 
