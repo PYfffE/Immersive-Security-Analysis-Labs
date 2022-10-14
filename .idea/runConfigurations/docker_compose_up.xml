@@ -7,7 +7,10 @@
         <option name="removeVolumesOnComposeDown" value="true" />
         <option name="commandLineOptions" value="--build" />
         <option name="sourceFilePath" value="docker-compose.yaml" />
+        <option name="upAlwaysRecreate" value="true" />
         <option name="upForceRecreate" value="true" />
+        <option name="upRemoveOrphans" value="true" />
+        <option name="upRenewAnonVolumes" value="true" />
       </settings>
     </deployment>
     <method v="2" />
