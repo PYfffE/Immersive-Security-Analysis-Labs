@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  node-main:
+    build: express_main
+    image: pyfffe/node-nunchucks
+    container_name: node-nunchucks
+    restart: unless-stopped
+    expose:
+      - "8081"
+    networks:
+      back:
+        ipv4_address: 172.16.238.11
+    
+  node-store:
+    build: express_store
+    image: pyfffe/node-nunchucks-store
+    container_name: node-nunchucks-store
+    restart: unless-stopped
+    expose:
+      - "8082"
+    networks:
+      back:
+        ipv4_address: 172.16.238.12
+    
+  nginx-proxy:
+    build: nginx_first_vuln
+    image: pyfffe/nginx-nunchucks
+    container_name: nginx-nunchucks
+    restart: unless-stopped
+    links:
+      - "node-main:back"
+      - "node-store:back"
+    ports:
+      - "81:80"
+    networks:
+      back:
+        ipv4_address: 172.16.238.13
+
+
+networks:
+  back:
+    driver: bridge
+    internal: false
+    ipam:
+     driver: default
+     config:
+       - subnet: 172.16.238.0/24
+
+#External network actually
+  frontend:
+    driver: bridge
