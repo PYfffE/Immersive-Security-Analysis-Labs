@@ -1,0 +1,39 @@
+{% from 'bootstrap5/nav.html' import render_nav_item %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+        {% endblock %}
+
+        <title>Киберквест</title>
+        {% endblock %}
+    </head>
+    <body>
+
+        {% block navbar%}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <h2 class="text-light">Киберквест</h2>
+
+            {% block navbar_content%}
+            {% endblock %}
+        </nav>
+        {% endblock %}
+
+        <!-- Your page content -->
+        {% block content %}
+        {% endblock %}
+
+        {% block scripts %}
+            <!-- Optional JavaScript -->
+            {{ bootstrap.load_js() }}
+        {% endblock %}
+    </body>
+</html>

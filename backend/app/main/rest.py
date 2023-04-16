@@ -1,10 +1,9 @@
 import os
 
-import uvicorn
 import paramiko
-from fastapi import FastAPI, Request
+from flask import request
 
-app = FastAPI()
+from backend.app.main import bp
 
 host = os.getenv("SSH_HOST")
 user = os.getenv("SSH_USER")
@@ -12,14 +11,15 @@ secret = os.getenv("SSH_PASSWORD")
 port = os.getenv("SSH_PORT")
 
 
-@app.get("/deploy/{vuln_name}")
-async def root(vuln_name: str, request: Request):
+@bp.get("/deploy/{vuln_name}")
+async def root(vuln_name: str):
     rs = run_docker_compose(vuln_name)
     return {
         "message": "Deployed!",
         "remote_message": rs,
-        "ip": request.client.host
+        "ip": request.host
     }
+
 
 
 def run_docker_compose(name: str) -> str:
@@ -37,7 +37,3 @@ def run_docker_compose(name: str) -> str:
         print(data)
     client.close()
     return data
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

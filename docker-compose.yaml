@@ -4,7 +4,7 @@ services:
     nginx:
         build: nginx
         volumes:
-          - ./frontend/admin:/static
+          - ./frontend/admin/build:/static
         ports:
           - "81:80"
         depends_on:
