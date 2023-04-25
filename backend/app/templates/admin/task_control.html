@@ -1,0 +1,54 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block content %}
+    <div class="container-xl">
+        <h2 class="mt-5">{{ task.title }}</h2>
+        <div class="row align-items-start">
+            <div class="col-5 container-xl">
+                <div class="container-xl bg-light">
+                    <h2 class="mt-5">Управление практикой</h2>
+
+                    <button id="launch_practice" type="button" class="btn btn-primary align-middle"
+                            onclick="launchPractice()">Запустить практику</button>
+                </div>
+            </div>
+            <div class="col-2 container-xl">
+                <ul class="list-group">
+                    <a class="list-group-item list-group-item-action"
+                       href="{{ url_for("admin.task_by_id", id = task.task_id) }}">Описание</a>
+                    <a class="list-group-item list-group-item-action active"
+                       href="{{ url_for("admin.task_control", id = task.task_id) }}">Управление практикой</a>
+                    <a class="list-group-item list-group-item-action"
+                       href="{{ url_for("admin.task_students", id = task.task_id) }}">Студенты</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+{#    use fetch to send request to backend#}
+        function launchPractice() {
+            {# disable launch_practice button while requesting#}
+            document.getElementById("launch_practice").disabled = true;
+            fetch('{{ url_for("admin.deploy", task_id = task.task_id) }}', {
+                method: 'POST',
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Something went wrong on api server!');
+                }
+            }).then(response => {
+                console.debug(response);
+                document.getElementById("launch_practice").disabled = false;
+                alert("Практика успешно запущена!")
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+    </script>
+{% endblock %}

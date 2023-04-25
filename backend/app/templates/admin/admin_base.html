@@ -1,15 +1,11 @@
 {% extends 'base.html' %}
 
-{% block navbar_content%}
+{% block navbar_content %}
     <div class="navbar-nav mr-auto">
         {{ render_nav_item('admin.tasks', 'Задания') }}
         {{ render_nav_item('admin.students', 'Управление студентами') }}
         {{ render_nav_item('admin.top', 'Таблица счета') }}
     </div>
-
 {% endblock %}
 
-{% block content%}
-<img src="{{ url_for('static', filename='images/landing.png') }}" class="img-fluid" alt="Киберквест">
 
-{% endblock %}

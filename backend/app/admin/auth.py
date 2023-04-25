@@ -37,4 +37,4 @@ def login_post():
 
     session['user_id'] = user.user_id
 
-    return redirect(url_for('admin.index'))
+    return redirect(url_for('admin.tasks'))

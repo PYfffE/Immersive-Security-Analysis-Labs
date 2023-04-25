@@ -1,0 +1,23 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block content %}
+    <div class="container-xl">
+        <h2 class="mt-5 ">Список студентов</h2>
+    <a href="{{ url_for('admin.add_student') }}" class="btn btn-primary btn-sm">Добавить студента</a>
+        <ul class="list-group">
+            {% for student in list %}
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-1">{{ student.student_id }}</div>
+                        <div class="col-2">{{ student.name }}</div>
+                        <div class="col-2">{{ student.email }}</div>
+                        <div class="col-2">{{ student.group }}</div>
+                        <div class="col-1">
+                            <a href="{{ url_for('admin.edit_student', id=student.student_id) }}" class="btn btn-primary btn-sm">Редактировать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

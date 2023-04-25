@@ -1,0 +1,40 @@
+{% extends 'admin/admin_base.html' %}
+{% from 'bootstrap5/form.html' import render_form_row %}
+
+{% block content %}
+    <div class="container">
+        <h2>Добавить студента</h2>
+        <form method="post" class="form">
+            {{ form.csrf_token() }}
+            {{ render_form_row([form.username]) }}
+            <button id="generateUsername" type="button" class="btn btn-primary align-middle"
+                    onclick="generateRandomUsername()">Сгенерировать
+            </button>
+            {{ render_form_row([form.password]) }}
+            <button id="generatePassword" type="button" class="btn btn-primary align-middle"
+                    onclick="generateRandomPassword()">Сгенерировать
+            </button>
+            {{ render_form_row([form.submit]) }}
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        function generateRandomUsername() {
+            var username = document.getElementById("username");
+            username.value = "student-" + Math.random().toString(36).substring(2, 15);
+            //Сделать проверку на уникальность
+        }
+    </script>
+    <script>
+        function generateRandomPassword() {
+            var password = document.getElementById("password");
+            //generate random password with length from 8 to 16
+            password.value = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+        }
+    </script>
+{% endblock %}
