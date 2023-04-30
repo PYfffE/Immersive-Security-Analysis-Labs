@@ -5,9 +5,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length
 
-from backend.app import db
-from backend.app.admin import bp
-from backend.app.admin.auth import login_required
+from .. import db
+from . import bp
+from .auth import login_required
 
 
 LIST_LIMIT=10

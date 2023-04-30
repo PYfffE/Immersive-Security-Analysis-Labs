@@ -2,20 +2,27 @@ version: "3.7"
 
 services:
     nginx:
-        build: nginx
-        volumes:
-          - ./frontend/admin/build:/static
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile
         ports:
-          - "81:80"
+          - "81:80" # В nginx порт должен совпадать с открытым портом из-за особенностей механизма редиректов фласка
+        volumes:
+          - ./backend/app/static:/static
         depends_on:
-          - api
+          - app
 
-    api:
-        build: backend
+    app:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+            args:
+                - PORT=8080
         env_file:
           - ./backend/.env
         environment:
-          - PORT=8080
+          - APP_ENV=prod
+          - APP_DEBUG=0
         ports:
           - "8080:8080"
 networks:

@@ -3,9 +3,9 @@ import os
 import paramiko
 from flask import request, session, redirect, url_for
 
-from backend.app import db
-from backend.app.admin import bp
-from backend.app.admin.auth import login_required
+from .. import db
+from . import bp
+from .auth import login_required
 
 
 @bp.post('/tasks/list')

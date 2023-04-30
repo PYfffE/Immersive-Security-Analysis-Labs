@@ -1,7 +1,7 @@
 import uuid
 
-from backend.app.models.pagination import Pagination
-from backend.app.models.user import User
+from .models.pagination import Pagination
+from .models.user import User
 
 
 def get_user_by_username(username: str) -> User:

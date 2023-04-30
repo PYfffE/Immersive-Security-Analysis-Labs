@@ -2,8 +2,8 @@ import functools
 
 from flask import session, redirect, url_for, g, request
 
-from backend.app import db
-from backend.app.admin import bp
+from .. import db
+from . import bp
 
 
 def login_required(view):

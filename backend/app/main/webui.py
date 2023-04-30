@@ -1,1 +1,1 @@
-from backend.app.main import bp
+from . import bp
