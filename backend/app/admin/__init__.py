@@ -1,5 +1,8 @@
+"""
+Admin UI/REST API
+"""
 from flask import Blueprint
 
-bp = Blueprint('admin', __name__, url_prefix="/admin/")
+bp = Blueprint("admin", __name__, url_prefix="/admin/")
 
-from . import rest, webui
+from app.admin import rest, webui  # noqa: E402

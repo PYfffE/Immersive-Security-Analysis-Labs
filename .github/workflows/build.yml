@@ -1,0 +1,22 @@
+name: 'Docker compose run'
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # need checkout before using compose-action
+      - uses: actions/checkout@v3
+      - name: Build and run
+        shell: bash
+        run: |
+          chmod +x .github/workflows/script/check_containers.sh
+          .github/workflows/script/check_containers.sh
+      - name: Show logs
+        if: failure()
+        run: docker compose logs -t
+          
+          
+          
+          

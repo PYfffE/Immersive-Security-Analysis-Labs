@@ -3,5 +3,4 @@ import os
 import paramiko
 from flask import request
 
-from . import bp
-
+from app.main import bp

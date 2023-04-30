@@ -1,5 +1,6 @@
 from flask import Blueprint
 
-bp = Blueprint('main', __name__, url_prefix="/")
 
-from . import rest, webui
+bp = Blueprint("main", __name__, url_prefix="/")
+
+from app.main import rest, webui  # noqa: E402
