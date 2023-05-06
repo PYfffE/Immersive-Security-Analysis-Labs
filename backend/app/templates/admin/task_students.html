@@ -1,0 +1,21 @@
+{% extends 'admin/admin_base.html' %}
+
+{% block content %}
+    <div class="container-xl">
+    <h2 class="mt-5">{{ task.title }}</h2>
+        <div class="row align-items-start">
+            <div class="col-5 container-xl">
+                <div class="container-xl bg-light">
+                    <h2 class="mt-5">Студенты</h2>
+                </div>
+            </div>
+            <div class="col-2 container-xl">
+                <ul class="list-group">
+                    <a class="list-group-item list-group-item-action" href="{{ url_for("admin.task_by_id", id = task.task_id) }}">Описание</a>
+                    <a class="list-group-item list-group-item-action" href="{{ url_for("admin.task_control", id = task.task_id) }}">Управление практикой</a>
+                    <a class="list-group-item list-group-item-action active" href="{{ url_for("admin.task_students", id = task.task_id) }}">Студенты</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

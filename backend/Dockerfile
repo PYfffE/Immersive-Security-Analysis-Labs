@@ -1,12 +1,15 @@
 FROM python:3.10
 
-WORKDIR /code
+WORKDIR /backend
 
-COPY ./requirements.txt /code/requirements.txt
+COPY ./requirements.txt /backend/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY ./app /backend/app
+COPY ./composes /backend/composes
 
-COPY ./app /code/app
-COPY ./composes /code/composes
+ARG PORT
+ENV PORT $PORT
 
-CMD ["uvicorn", "app.rest:app", "--host", "0.0.0.0", "--port", "8080", "--proxy-headers"]
+RUN pip install --no-cache-dir --upgrade -r /backend/requirements.txt
+
+CMD gunicorn -w 1 --bind 0.0.0.0:$PORT 'app:create_app()' --access-logfile=-
