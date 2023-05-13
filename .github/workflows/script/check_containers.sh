@@ -1,5 +1,3 @@
-#!/bin/bash
-
 docker compose up -d --force-recreate --build
 while true; do
   # Получаем статусы контейнеров

@@ -1,0 +1,160 @@
+{% extends 'main/main_base.html' %}
+
+{% block content %}
+    <div class="container-xl">
+        <h2 class="mt-5">{{ task.title }}</h2>
+        <div class="row align-items-start">
+            <div class="col-md-7 container-xl">
+                <div class="container-lg bg-light">
+                    <h2 class="mt-5">Управление практикой</h2>
+
+                    <p class="mt-3">Для запуска практики нажмите кнопку "Запустить практику". После запуска практики
+                        вы получите IP адрес и порт для подключения к практике. После окончания практики не забудьте
+                        остановить ее.</p>
+                    {% if container_status == "running" %}
+                        <button id="container_control" type="button" class="btn btn-danger align-middle"
+                                onclick="stopPractice()">Остановить практику
+                        </button>
+                        <div id="technical_information" class="container-xl">
+                            <h2 class="mt-5">Информация о запущенной практике</h2>
+                            <a id="ip">IP адрес: {{ container_ip }}</a>
+                            <br/>
+                            <a id="ports">Порт для подключения: {{ container_ports }}</a>
+                        </div>
+                    {% else %}
+                        <button id="container_control" type="button" class="btn btn-primary"
+                                onclick="launchPractice()">Запустить практику
+                        </button>
+                        <div id="technical_information" class="container-xl bg-light d-none"></div>
+                    {% endif %}
+                    <div id="alert-container" class="mt-3"></div>
+
+                </div>
+            </div>
+            <div class="col-2 container-md">
+                <ul class="list-group">
+                    <a class="list-group-item list-group-item-action"
+                       href="{{ url_for("main.task_by_id", task_id = task.task_id) }}">Описание</a>
+                    <a class="list-group-item list-group-item-action active"
+                       href="{{ url_for("main.task_practice", task_id = task.task_id) }}">Практика</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+    <script>
+        {#    use fetch to send request to backend#}
+
+        function launchPractice() {
+            {# disable launch_practice button while requesting#}
+            document.getElementById("container_control").disabled = true;
+            fetch('{{ url_for("main.run_container", task_id = task.task_id) }}', {
+                method: 'POST',
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    // try to extract JSON from the response
+                    return response.json().then(jsonResponse => {
+                        if (jsonResponse["error"] != null) {
+                            throw new Error(jsonResponse["error"]);
+                        } else {
+                            throw new Error("Unknown error");
+                        }
+                    }).catch(error => {
+                        // if JSON extraction fails, we still want to propagate the original response status error
+                        if (error instanceof SyntaxError) {
+                            throw new Error("Unknown error");
+                        } else {
+                            throw error;
+                        }
+                    });
+                }
+            }).then(response => {
+                console.debug(response);
+                const container_control_button = document.getElementById("container_control");
+                container_control_button.disabled = false;
+                container_control_button.classList.remove("btn-primary");
+                container_control_button.classList.add("btn-danger");
+                container_control_button.innerHTML = "Остановить практику";
+                container_control_button.onclick = stopPractice;
+                const technical_block = document.getElementById("technical_information");
+                technical_block.classList.remove("d-none");
+                technical_block.innerHTML = `
+                        <h2 class="mt-5">Информация о запущенной практике</h2>
+                        <a id="ip">IP адрес: ${response["ip"]}</a>
+                        <br/>
+                        <a id="ports">Порт для подключения: ${response["container_ports"]}</a>
+                `;
+                const alertContainer = document.getElementById("alert-container");
+                alertContainer.innerHTML = ``
+            }).catch(error => {
+                console.error(error);
+                document.getElementById("container_control").disabled = false;
+                const alertContainer = document.getElementById("alert-container");
+                alertContainer.innerHTML = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> ${error}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+               `;
+            });
+        }
+
+        function stopPractice() {
+            {# disable launch_practice button while requesting#}
+            document.getElementById("container_control").disabled = true;
+            fetch('{{ url_for("main.stop_container", task_id = task.task_id) }}', {
+                method: 'POST',
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    // try to extract JSON from the response
+                    return response.json().then(jsonResponse => {
+                        if (jsonResponse["error"] != null) {
+                            throw new Error(jsonResponse["error"]);
+                        } else {
+                            throw new Error("Unknown error");
+                        }
+                    }).catch(error => {
+                        // if JSON extraction fails, we still want to propagate the original response status error
+                        if (error instanceof SyntaxError) {
+                            throw new Error("Unknown error");
+                        } else {
+                            throw error;
+                        }
+                    });
+                }
+            }).then(response => {
+                console.debug(response);
+                const container_control_button = document.getElementById("container_control");
+                container_control_button.disabled = false;
+                container_control_button.classList.remove("btn-danger");
+                container_control_button.classList.add("btn-primary");
+                container_control_button.innerHTML = "Запустить практику";
+                container_control_button.onclick = launchPractice;
+                const technical_block = document.getElementById("technical_information");
+                technical_block.classList.add("d-none");
+                technical_block.innerHTML = ``;
+                const alertContainer = document.getElementById("alert-container");
+                alertContainer.innerHTML = ``
+            }).catch(error => {
+                console.error(error);
+                document.getElementById("container_control").disabled = false;
+                const alertContainer = document.getElementById("alert-container");
+                alertContainer.innerHTML = `
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> ${error}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+               `;
+            });
+        }
+    </script>
+{% endblock %}

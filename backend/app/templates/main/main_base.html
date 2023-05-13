@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block navbar_content %}
+    <div class="navbar-nav mr-auto">
+        {{ render_nav_item('main.tasks', 'Список заданий') }}
+        {{ render_nav_item('main.tasks', 'Активное задание') }}
+    </div>
+{% endblock %}
