@@ -17,6 +17,11 @@ def init_docker_connection():
     return docker.DockerClient(base_url=f"ssh://{user}@{docker_remote_host}:{port}")
 
 
+def erase_env(container, environment):
+    for key in environment:
+        container.exec_run(f"unset {key}")
+
+
 def run_docker_image(
     container_config: ContainerConfig,
     force_deploy: bool = False,
@@ -53,6 +58,8 @@ def run_docker_image(
     ) and time.monotonic() - t_start < timeout:
         time.sleep(stop_time)
         continue
+
+    erase_env(container, container_config.environment)
     client.close()
     return container
 

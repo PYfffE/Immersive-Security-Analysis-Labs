@@ -19,7 +19,11 @@
                             <h2 class="mt-5">Информация о запущенной практике</h2>
                             <a id="ip">IP адрес: {{ container_ip }}</a>
                             <br/>
-                            <a id="ports">Порт для подключения: {{ container_ports }}</a>
+                            <a id="ports">Порт SSH для подключения: {{ container_ports }}</a>
+                            <br/>
+                            <a id="ssh_login">Пользователь SSH: {{ task_container_info.container_ssh_username }}</a>
+                            <br/>
+                            <a id="ssh_password">Пароль SSH для подключения: {{ task_container_info.container_ssh_password }}</a>
                         </div>
                     {% else %}
                         <button id="container_control" type="button" class="btn btn-primary"
@@ -90,6 +94,10 @@
                         <a id="ip">IP адрес: ${response["ip"]}</a>
                         <br/>
                         <a id="ports">Порт для подключения: ${response["container_ports"]}</a>
+                        <br/>
+                        <a id="ssh_login">Пользователь SSH: ${response["ssh_username"]}</a>
+                        <br/>
+                        <a id="ssh_password">Пароль SSH: ${response["ssh_password"]}</a>
                 `;
                 const alertContainer = document.getElementById("alert-container");
                 alertContainer.innerHTML = ``

@@ -79,4 +79,5 @@ def task_practice(task_id: int):
         container_status=container_status,
         container_ip=container_ip,
         container_ports=container_ports,
+        task_container_info=task_container,
     )

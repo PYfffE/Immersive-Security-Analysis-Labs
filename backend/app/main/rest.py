@@ -55,8 +55,13 @@ def run_container(task_id: str):
     if container is not None:
         running_container_id = container.id
 
-    container_config.environment["SSH_PASSWORD"] = generate_random_string(12)
-    container_config.environment["SSH_USERNAME"] = g.student.username
+    ssh_password = generate_random_string(12)
+    ssh_username = g.student.username
+    flag = generate_random_string(20)
+
+    container_config.environment["SSH_PASSWORD"] = ssh_password
+    container_config.environment["SSH_USERNAME"] = ssh_username
+    container_config.environment["FLAG"] = flag
     try:
         container = run_docker_image(
             container_config, force_deploy, running_container_id
@@ -68,14 +73,9 @@ def run_container(task_id: str):
         return {"error": str(e)}, 500
 
     db.save_task_container(
-        TaskContainer(
-            task_id,
-            g.student.student_id,
-            container.id,
-            container_ip,
-            image_name=container_config.image_name,
-            container_name=container_config.container_name,
-        )
+        TaskContainer(task_id, g.student.student_id, container.id, container_ip,
+                      container_name=container_config.container_name, image_name=container_config.image_name,
+                      container_ssh_password=ssh_password, container_ssh_username=ssh_username, flag=flag)
     )
     external_ports = [
         docker_port_info[0]["HostPort"]

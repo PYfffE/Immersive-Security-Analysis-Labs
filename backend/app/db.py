@@ -108,11 +108,5 @@ def save_task_container(param: TaskContainer):
 def get_task_container(task_id, student_id) -> TaskContainer:
     if container_id is None:
         return None
-    return TaskContainer(
-        task_id,
-        student_id,
-        container_id,
-        "container_ip",
-        image_name="image_name",
-        container_name=container_name,
-    )
+    return TaskContainer(task_id, student_id, container_id, "container_ip", container_name=container_name,
+                         image_name="image_name", container_ssh_password="", flag="flag")
