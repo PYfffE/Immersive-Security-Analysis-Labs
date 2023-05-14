@@ -1,0 +1,28 @@
+{% extends 'main/main_base.html' %}
+{% from 'bootstrap5/pagination.html' import render_pagination %}
+
+{% block content %}
+    <div class="container-xl">
+        <h2 class="mt-5 ">Список заданий</h2>
+        <ul class="list-group">
+            {% for task in list %}
+                <a class="list-group-item list-group-item-action" href="{{ url_for("main.task_by_id", task_id = task.task_id) }}">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ task.title }}
+                        </div>
+                        <div class="col-3">
+                            {{ task.description }}
+                        </div>
+                        <div class="col-2">
+                            {{ task.status }}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </ul>
+        <nav>
+            {{ render_pagination(pagination, prev=None, next=None) }}
+        </nav>
+    </div>
+{% endblock %}

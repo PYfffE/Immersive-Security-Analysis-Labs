@@ -1,0 +1,21 @@
+{% extends 'main/main_base.html' %}
+
+{% block content %}
+    <div class="container-xl">
+    <h2 class="mt-5">{{ task.title }}</h2>
+        <div class="row align-items-start">
+            <div class="col-5 container-xl">
+                <div class="container-xl bg-light">
+                    <h2 class="mt-5">Описание</h2>
+                    <p>{{ task.description }}</p>
+                </div>
+            </div>
+            <div class="col-2 container-xl">
+                <ul class="list-group">
+                    <a class="list-group-item list-group-item-action active" href="{{ url_for("main.task_by_id", task_id = task.task_id) }}">Описание</a>
+                    <a class="list-group-item list-group-item-action" href="{{ url_for("main.task_practice", task_id = task.task_id) }}">Практика</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

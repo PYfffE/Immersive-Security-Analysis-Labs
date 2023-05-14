@@ -18,11 +18,14 @@ services:
             dockerfile: Dockerfile
             args:
                 - PORT=8080
-        env_file:
-          - ./backend/.env
+        volumes:
+          - ~/.ssh:/ssh_config:ro
         environment:
           - APP_ENV=prod
           - APP_DEBUG=0
+          - DOCKER_REMOTE_HOST
+          - SSH_USER
+          - SSH_PORT
         ports:
           - "8080:8080"
 networks:
