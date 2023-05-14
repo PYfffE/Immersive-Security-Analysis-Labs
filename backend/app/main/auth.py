@@ -44,4 +44,4 @@ def login_post():
 
     session["student_id"] = student.student_id
 
-    return redirect(url_for("admin.tasks"))
+    return redirect(url_for("main.tasks"))

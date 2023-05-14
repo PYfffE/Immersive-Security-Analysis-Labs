@@ -108,5 +108,36 @@ def save_task_container(param: TaskContainer):
 def get_task_container(task_id, student_id) -> TaskContainer:
     if container_id is None:
         return None
-    return TaskContainer(task_id, student_id, container_id, "container_ip", container_name=container_name,
-                         image_name="image_name", container_ssh_password="", flag="flag")
+    return TaskContainer(
+        task_id,
+        student_id,
+        container_id,
+        "container_ip",
+        container_name=container_name,
+        image_name="image_name",
+        container_ssh_password="",
+        flag="flag",
+    )
+
+
+def get_task_containers(task_id) -> list[TaskContainer]:
+    return [
+        TaskContainer(
+            task_id,
+            "student_id",
+            container_id,
+            "container_ip",
+            container_name=container_name,
+        ),
+        TaskContainer(
+            task_id,
+            "student_id",
+            container_id,
+            "container_ip",
+            container_name=container_name,
+        ),
+    ]
+
+
+def delete_task_container(task_id, container_id):
+    return None

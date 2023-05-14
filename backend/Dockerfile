@@ -7,7 +7,6 @@ WORKDIR /backend
 
 COPY ./requirements.txt /backend/requirements.txt
 COPY ./app /backend/app
-COPY ./composes /backend/composes
 COPY ./scripts /backend/scripts
 
 RUN pip install --no-cache-dir --upgrade -r /backend/requirements.txt

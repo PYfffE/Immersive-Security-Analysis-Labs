@@ -77,10 +77,12 @@ def get_docker_container_for_name(container_name: str):
     return container
 
 
-def stop_docker_container(container_id: str):
+def stop_docker_container(container_id: str, delete_container: bool = False):
     client = init_docker_connection()
     container = client.containers.get(container_id)
     container.stop()
+    if delete_container:
+        container.remove()
     client.close()
 
 

@@ -73,9 +73,17 @@ def run_container(task_id: str):
         return {"error": str(e)}, 500
 
     db.save_task_container(
-        TaskContainer(task_id, g.student.student_id, container.id, container_ip,
-                      container_name=container_config.container_name, image_name=container_config.image_name,
-                      container_ssh_password=ssh_password, container_ssh_username=ssh_username, flag=flag)
+        TaskContainer(
+            task_id,
+            g.student.student_id,
+            container.id,
+            container_ip,
+            container_name=container_config.container_name,
+            image_name=container_config.image_name,
+            container_ssh_password=ssh_password,
+            container_ssh_username=ssh_username,
+            flag=flag,
+        )
     )
     external_ports = [
         docker_port_info[0]["HostPort"]

@@ -14,7 +14,7 @@
               <option name="value" value="" />
             </DockerEnvVarImpl>
             <DockerEnvVarImpl>
-              <option name="name" value="SSH_PASSWORD" />
+              <option name="name" value="SSH_PORT" />
               <option name="value" value="" />
             </DockerEnvVarImpl>
           </list>

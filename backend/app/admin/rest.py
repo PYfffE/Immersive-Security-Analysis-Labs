@@ -63,6 +63,17 @@ def stop(task_id: str):
     return {"status": "Stopped"}
 
 
+@bp.delete("/task/<task_id>/<container_id>")
+@login_required
+def delete_container(task_id: str, container_id: str):
+    try:
+        stop_docker_container(container_id, delete_container=True)
+    except Exception as e:
+        return {"error": str(e)}, 500
+    db.delete_task_container(task_id, container_id)
+    return {"status": "Deleted"}
+
+
 @bp.post("/student/add")
 @login_required
 def add_student_account():

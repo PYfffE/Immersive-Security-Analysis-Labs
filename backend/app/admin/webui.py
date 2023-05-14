@@ -6,7 +6,8 @@ from wtforms.validators import DataRequired, Length
 from app import db
 from app.admin import bp
 from app.admin.auth import login_required
-
+from app.docker.api import get_docker_container_for_name
+from app.models.task_container import TaskContainer
 
 LIST_LIMIT = 10
 
@@ -79,7 +80,16 @@ def task_by_id(id: int):
 @login_required
 def task_control(id: int):
     task = db.get_task(id)
-    return render_template("admin/task_control.html", task=task)
+    task_containers: list[TaskContainer] = db.get_task_containers(id)
+
+    for task_container in task_containers:
+        container = get_docker_container_for_name(task_container.container_name)
+        if container is not None:
+            task_container.status = container.status
+            task_container.container_ports = container.ports
+    return render_template(
+        "admin/task_control.html", task=task, task_containers=task_containers
+    )
 
 
 @bp.route("/task/<int:id>/students")

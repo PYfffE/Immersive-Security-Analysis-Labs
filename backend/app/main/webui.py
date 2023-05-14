@@ -4,7 +4,7 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length
 
 from app import db
-from app.docker.api import get_docker_container_for_name
+from app.docker.api import get_docker_container_for_name, docker_remote_host
 from app.main import bp
 from app.main.auth import login_required
 
@@ -67,7 +67,7 @@ def task_practice(task_id: int):
         container = get_docker_container_for_name(task_container.container_name)
         if container is not None:
             container_status = container.status
-            container_ip = container.attrs["NetworkSettings"]["IPAddress"]
+            container_ip = docker_remote_host
             container_ports = [
                 docker_port_info[0]["HostPort"]
                 for (docker_port, docker_port_info) in container.ports.items()
